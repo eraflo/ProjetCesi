@@ -6,7 +6,7 @@ const speed = 5
 const gravity = 0.5
 
 #rotation caméra
-var min_elevation_angle = 10
+var min_elevation_angle = -90
 var max_elevation_angle = 90
 var rotation_speed = 15
 onready var elevation = $Camera
@@ -82,7 +82,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 #rotation haut bas
 func _elevate(delta: float, val: float) -> void:
-	var new_elevation = elevation.rotation_degrees.x + val * delta * rotation_speed
+	var new_elevation = elevation.rotation_degrees.x - val * delta * rotation_speed
 	new_elevation = clamp(new_elevation, -max_elevation_angle, -min_elevation_angle)
 	elevation.rotation_degrees.x = new_elevation
 
