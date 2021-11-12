@@ -53,13 +53,11 @@ func _physics_process(delta):
 	#jump
 	_jump(delta)
 	
-	
-	
 	move_and_slide(velocity, _floor, 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
 
 
 #déplacement
-func _move(delta: float):
+func _move(_delta: float):
 	speed = walk
 	#mouvement (avancer, reculer, droite, gauche)
 	if Input.is_action_pressed("sprint"):
@@ -67,32 +65,32 @@ func _move(delta: float):
 	if Input.is_action_pressed("ui_right") and Input.is_action_pressed("ui_left"):
 		velocity.x = 0
 	elif Input.is_action_pressed("ui_right"):
-		velocity += transform.basis.x * speed * delta
+		velocity += transform.basis.x * speed * _delta
 	elif Input.is_action_pressed("ui_left"):
-		velocity -= transform.basis.x * speed * delta
+		velocity -= transform.basis.x * speed * _delta
 	else:
 		velocity.x = lerp(velocity.x, 0, 0.05)
 	
 	if Input.is_action_pressed("ui_up") and Input.is_action_pressed("ui_down"):
 		velocity.z = 0
 	elif Input.is_action_pressed("ui_up"):
-		velocity -= transform.basis.z * speed * delta
+		velocity -= transform.basis.z * speed * _delta
 	elif Input.is_action_pressed("ui_down"):
-		velocity += transform.basis.z * speed * delta
+		velocity += transform.basis.z * speed * _delta
 	else:
 		velocity.z = lerp(velocity.z, 0, 0.05)
 	
 	velocity.normalized()
 
 #gère la rotation
-func _rotate(delta: float) -> void:
+func _rotate(_delta: float) -> void:
 	if not _is_rotating or not allow_rotation:
 		return
 	var displacement = _get_mouse_displacement()
 	#rotation droite gauche
-	_rotate_left_right(delta, displacement.x)
+	_rotate_left_right(_delta, displacement.x)
 	#rotation haut bas
-	_elevate(delta, displacement.y)
+	_elevate(_delta, displacement.y)
 	
 
 
@@ -104,8 +102,8 @@ func _get_mouse_displacement() -> Vector2:
 	return displacement
 
 #gère la valeur de la rotation de la caméra
-func _rotate_left_right(delta: float, val: float) -> void:
-	rotation_degrees.y -= val * delta * rotation_speed
+func _rotate_left_right(_delta: float, val: float) -> void:
+	rotation_degrees.y -= val * _delta * rotation_speed
 
 #regarde si on appuie sur click gauche pour tourner la caméra
 func _unhandled_input(event: InputEvent) -> void:
@@ -117,19 +115,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		_is_rotating = false
 
 #rotation haut bas
-func _elevate(delta: float, val: float) -> void:
-	var new_elevation = elevation.rotation_degrees.x - val * delta * rotation_speed
+func _elevate(_delta: float, val: float) -> void:
+	var new_elevation = elevation.rotation_degrees.x - val * _delta * rotation_speed
 	new_elevation = clamp(new_elevation, -max_elevation_angle, -min_elevation_angle)
 	elevation.rotation_degrees.x = new_elevation
 
 #jump
-func _jump(delta: float):
+func _jump(_delta: float):
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity += transform.basis.y * jump 
 
 
 #changer de vue
-func vue_perso(delta: float):
+func vue_perso(_delta: float):
 	if Input.is_action_just_pressed("change_view") and change == false:
 		$Camera.translation = perso3
 		change = true
