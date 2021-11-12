@@ -1,15 +1,19 @@
 extends KinematicBody
 
+const _floor = Vector3(0, 1, 0)
+
 # mouvement joueur
 var velocity = Vector3()
-const speed = 5
-const gravity = 0.5
+const speed = 50
+const gravity = 9.8
+const jump = 10
 
 #rotation caméra
 var min_elevation_angle = -90
 var max_elevation_angle = 90
 var rotation_speed = 15
 onready var elevation = $Camera
+
 #gestion souris pour rotation
 var allow_rotation = true
 var _last_mouse_position = Vector2()
@@ -21,32 +25,44 @@ func _ready():
 
 
 
-func _process(delta):
+func _physics_process(delta):
+	#gravité
+	velocity.y -= gravity * delta
+	
+	#déplacement
+	_move(delta)
+	
 	#rotation
 	_rotate(delta)
-	#gravité
-	velocity.y = - gravity
 	
+	#jump
+	_jump(delta)
+	
+	print(is_on_floor())
+	
+	move_and_slide(velocity, _floor)
+
+
+#déplacement
+func _move(delta: float):
 	#mouvement (avancer, reculer, droite, gauche)
 	if Input.is_action_pressed("ui_right") and Input.is_action_pressed("ui_left"):
 		velocity.x = 0
 	elif Input.is_action_pressed("ui_right"):
-		velocity = transform.basis.x
+		velocity += transform.basis.x * speed * delta
 	elif Input.is_action_pressed("ui_left"):
-		velocity -= transform.basis.x
+		velocity -= transform.basis.x * speed * delta
 	else:
-		velocity.x = lerp(velocity.x, 0, 0.2)
+		velocity.x = lerp(velocity.x, 0, 0.1)
 	
 	if Input.is_action_pressed("ui_up") and Input.is_action_pressed("ui_down"):
 		velocity.z = 0
 	elif Input.is_action_pressed("ui_up"):
-		velocity -= transform.basis.z
+		velocity -= transform.basis.z * speed * delta
 	elif Input.is_action_pressed("ui_down"):
-		velocity += transform.basis.z
+		velocity += transform.basis.z * speed * delta
 	else:
-		velocity.z = lerp(velocity.z, 0, 0.2)
-	
-	move_and_collide(velocity)
+		velocity.z = lerp(velocity.z, 0, 0.1)
 
 #gère la rotation
 func _rotate(delta: float) -> void:
@@ -85,5 +101,10 @@ func _elevate(delta: float, val: float) -> void:
 	var new_elevation = elevation.rotation_degrees.x - val * delta * rotation_speed
 	new_elevation = clamp(new_elevation, -max_elevation_angle, -min_elevation_angle)
 	elevation.rotation_degrees.x = new_elevation
+
+#jump
+func _jump(delta: float):
+	if Input.is_action_pressed("jump") and is_on_floor():
+		velocity += transform.basis.y * jump 
 
 
