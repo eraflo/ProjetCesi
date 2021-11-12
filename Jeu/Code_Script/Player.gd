@@ -1,12 +1,18 @@
 extends KinematicBody
 
+#détecter le sol
 const _floor = Vector3(0, 1, 0)
+const MAX_SLOPE_ANGLE = 40
 
 # mouvement joueur
 var velocity = Vector3()
-const speed = 50
-const gravity = 9.8
-const jump = 10
+var speed = 50
+const walk = 50
+const gravity = -24.8
+const jump = 18
+const sprint = 150
+
+
 
 #rotation caméra
 var min_elevation_angle = -90
@@ -19,6 +25,12 @@ var allow_rotation = true
 var _last_mouse_position = Vector2()
 var _is_rotating = false
 
+#gestion vue
+var perso1 = Vector3(0, 0.742, 0)
+var perso3 = Vector3(0, 1.928, 8.502)
+var change = false
+
+
 
 func _ready():
 	pass 
@@ -27,7 +39,7 @@ func _ready():
 
 func _physics_process(delta):
 	#gravité
-	velocity.y -= gravity * delta
+	velocity.y += gravity * delta
 	
 	#déplacement
 	_move(delta)
@@ -35,17 +47,23 @@ func _physics_process(delta):
 	#rotation
 	_rotate(delta)
 	
+	#vue
+	vue_perso(delta)
+	
 	#jump
 	_jump(delta)
 	
-	print(is_on_floor())
 	
-	move_and_slide(velocity, _floor)
+	
+	move_and_slide(velocity, _floor, 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
 
 
 #déplacement
 func _move(delta: float):
+	speed = walk
 	#mouvement (avancer, reculer, droite, gauche)
+	if Input.is_action_pressed("sprint"):
+		speed = sprint
 	if Input.is_action_pressed("ui_right") and Input.is_action_pressed("ui_left"):
 		velocity.x = 0
 	elif Input.is_action_pressed("ui_right"):
@@ -53,7 +71,7 @@ func _move(delta: float):
 	elif Input.is_action_pressed("ui_left"):
 		velocity -= transform.basis.x * speed * delta
 	else:
-		velocity.x = lerp(velocity.x, 0, 0.1)
+		velocity.x = lerp(velocity.x, 0, 0.05)
 	
 	if Input.is_action_pressed("ui_up") and Input.is_action_pressed("ui_down"):
 		velocity.z = 0
@@ -62,7 +80,9 @@ func _move(delta: float):
 	elif Input.is_action_pressed("ui_down"):
 		velocity += transform.basis.z * speed * delta
 	else:
-		velocity.z = lerp(velocity.z, 0, 0.1)
+		velocity.z = lerp(velocity.z, 0, 0.05)
+	
+	velocity.normalized()
 
 #gère la rotation
 func _rotate(delta: float) -> void:
@@ -107,4 +127,16 @@ func _jump(delta: float):
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity += transform.basis.y * jump 
 
+
+#changer de vue
+func vue_perso(delta: float):
+	if Input.is_action_just_pressed("change_view") and change == false:
+		$Camera.translation = perso3
+		change = true
+	elif Input.is_action_just_pressed("change_view") and change == true:
+		$Camera.translation = perso1
+		change = false
+	
+		
+	
 

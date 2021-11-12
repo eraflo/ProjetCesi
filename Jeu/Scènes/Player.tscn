@@ -18,10 +18,9 @@ __meta__ = {
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1.79626, 0, 0, 0, 0.578845, -0.128687, 0, 0.615054, 2.76656, 0, 0.742484, 0 )
+transform = Transform( 1.79626, 0, 0, 0, 0.578847, -0.128688, 0, 0.615057, 2.76655, 0, 0.742484, 0 )
 current = true
