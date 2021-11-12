@@ -53,7 +53,7 @@ func _physics_process(delta):
 	#jump
 	_jump(delta)
 	
-	move_and_slide(velocity, _floor, 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
+	velocity = move_and_slide(velocity, _floor, 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
 
 
 #déplacement
