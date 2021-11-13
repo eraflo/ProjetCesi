@@ -15,6 +15,11 @@ const gravity = 50
 const jump = 20
 const sprint = 14.0
 
+#Caractéristiques perso
+export var life = 200
+export var money = 0
+export var strengh = 10
+
 
 #rotation caméra
 var min_elevation_angle = -90
@@ -138,6 +143,7 @@ func _jump(_delta: float):
 		_snap_vector = Vector3.ZERO
 	elif just_landed:
 		_snap_vector = Vector3.DOWN
+
 
 #changer de vue
 func vue_perso():
