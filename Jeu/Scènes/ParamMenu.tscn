@@ -52,5 +52,6 @@ text = "Save"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="Panel/back" to="." method="back"]
 [connection signal="pressed" from="Panel/save" to="." method="save"]

@@ -39,6 +39,10 @@ export var change = false
 
 func _ready():
 	emit_signal("change", false)
+	#positionnement la joueur là où il se trouvait à la dernière sauvegarde
+	translation.x = GameManager.player_x
+	translation.y = GameManager.player_y
+	translation.z = GameManager.player_z
 	
 
 func _process(delta):
@@ -64,6 +68,11 @@ func _physics_process(delta):
 	vue_perso()
 
 	velocity = move_and_slide_with_snap(velocity, _snap_vector, _floor, true)
+	
+	#Update la position à save
+	GameManager.player_x = translation.x
+	GameManager.player_y = translation.y
+	GameManager.player_z = translation.z
 
 
 #déplacement

@@ -38,5 +38,6 @@ script = ExtResource( 3 )
 [node name="Camera2" type="Camera" parent="SpringArm2"]
 transform = Transform( 1.79626, 0, 0, 0, 0.592979, 0, 0, 0, 2.8341, 0, -1.19209e-07, 0 )
 current = true
+
 [connection signal="change" from="." to="SpringArm" method="_on_Player_change"]
 [connection signal="change" from="." to="SpringArm2" method="_on_Player_change"]
