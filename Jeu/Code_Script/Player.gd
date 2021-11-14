@@ -66,13 +66,14 @@ func _physics_process(delta):
 	
 	#vue
 	vue_perso()
-
-	velocity = move_and_slide_with_snap(velocity, _snap_vector, _floor, true)
 	
 	#Update la position à save
 	GameManager.player_x = translation.x
 	GameManager.player_y = translation.y
 	GameManager.player_z = translation.z
+
+	velocity = move_and_slide_with_snap(velocity, _snap_vector, _floor, true)
+	
 
 
 #déplacement
