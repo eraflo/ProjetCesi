@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Font/YujiSyuku-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Code_Script/NPC.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape" id=1]
+
+[sub_resource type="CapsuleMesh" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 1 )
+
+[node name="NPC" type="Area"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1.08, 0, 0, 0, 2.4, 0, 0, 0, 0.624, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_left = 531.85
+margin_top = 209.774
+margin_right = 708.85
+margin_bottom = 239.774
+custom_fonts/font = SubResource( 3 )
+text = "Interact (enter)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="body_entered" from="." to="." method="_on_NPC_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_NPC_body_exited"]

@@ -32,7 +32,7 @@ script = ExtResource( 2 )
 [node name="Camera" type="Camera" parent="SpringArm"]
 
 [node name="SpringArm2" type="SpringArm" parent="."]
-transform = Transform( -6.89645e-08, 0, -0.633855, 0, 1, 0, 1.57772, 0, -2.77067e-08, 0, 0.592979, 0 )
+transform = Transform( -0.0105067, 0, -0.633768, 0, 1, 0, 1.57769, 0, -0.0105067, 0, 0.592979, 0 )
 script = ExtResource( 3 )
 
 [node name="Camera2" type="Camera" parent="SpringArm2"]
