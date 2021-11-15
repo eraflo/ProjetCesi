@@ -43,7 +43,12 @@ func _ready():
 	translation.x = GameManager.player_x
 	translation.y = GameManager.player_y
 	translation.z = GameManager.player_z
-	
+	$SpringArm.rotation_degrees.x = GameManager.cam_x
+	$SpringArm.rotation_degrees.y = GameManager.cam_y
+	$SpringArm.rotation_degrees.z = GameManager.cam_z
+	$SpringArm2.rotation_degrees.x = GameManager.cam_x
+	$SpringArm2.rotation_degrees.y = GameManager.cam_y
+	$SpringArm2.rotation_degrees.z = GameManager.cam_z
 
 func _process(delta):
 	_spring_arm.translation = Vector3(translation.x, translation.y + 1.5, translation.z)
@@ -71,6 +76,9 @@ func _physics_process(delta):
 	GameManager.player_x = translation.x
 	GameManager.player_y = translation.y
 	GameManager.player_z = translation.z
+	GameManager.cam_x = $SpringArm.rotation_degrees.x
+	GameManager.cam_y = $SpringArm.rotation_degrees.y
+	GameManager.cam_z = $SpringArm.rotation_degrees.z
 
 	velocity = move_and_slide_with_snap(velocity, _snap_vector, _floor, true)
 	

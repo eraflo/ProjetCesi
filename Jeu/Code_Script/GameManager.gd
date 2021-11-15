@@ -12,6 +12,9 @@ var first_load = false
 var player_x = 0
 var player_y = 10
 var player_z = 23
+var cam_x = 0
+var cam_y = -90
+var cam_z = 0
 
 #change valeur sauvegarder, on update avant de save
 func update_data():
@@ -20,6 +23,9 @@ func update_data():
 			"posx" : player_x,
 			"posy" : player_y,
 			"posz" : player_z,
+			"camx" : cam_x,
+			"camy" : cam_y,
+			"camz" : cam_z,
 		},
 	"options" : 
 		{
@@ -59,6 +65,10 @@ func do_load() -> bool:
 		GameManager.player_x = player_data["posx"]
 		GameManager.player_y = player_data["posy"]
 		GameManager.player_z = player_data["posz"]
+		GameManager.cam_x = player_data["camx"]
+		GameManager.cam_y = player_data["camy"]
+		GameManager.cam_z = player_data["camz"]
+		
 		
 		return true
 	
