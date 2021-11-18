@@ -1,30 +1,24 @@
-extends Area
-signal can_interact(value)
+extends StaticBody
 
 var can_interact = false
-const DIALOG = preload("res://Scènes/DialogBox.tscn")
+var DIALOG = preload("res://Scènes/DialogBox.tscn")
+var Player_path = preload("res://Scènes/Player.tscn")
+var distancePlayer
 
+#là où on a nos textes
+export var dialog = [
+	'Hello my dear friend !',
+	'My name is John, the clown',
+	'I love joking'
+]
 
-func _physics_process(delta):
-	pass
-
-func _on_NPC_body_entered(body):
-	if body.name == "Player" :
-		$Label.visible = true
-		can_interact = true
-
-
-func _on_NPC_body_exited(body):
-	if body.name == "Player" :
-		$Label.visible = false
-		can_interact = false
-
+#cacher "Interargir (Enter)"
 func _input(event):
 	if Input.is_key_pressed(KEY_ENTER) and can_interact == true:
 		$Label.visible = false
-		var dialog = DIALOG.instance()
-		get_parent().add_child(dialog)
+		add_child(DIALOG.instance())
 		get_tree().paused = true
+	
 
 
 

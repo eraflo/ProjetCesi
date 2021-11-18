@@ -2,10 +2,18 @@ extends Node
 
 onready var settingsmenu = load("res://Scènes/ParamMenu.tscn")
 onready var settingsmenuchar = load("res://Scènes/CharacterMenu.tscn")
+var DIALOG = preload("res://Scènes/DialogBox.tscn")
 var filepath = "res://keybind.ini"
 var configfile
 
 var keybinds = {}
+
+#gère la détection npc
+var distancePlayer
+onready var array_npc = []
+var allDistancePlayer = []
+var distanceMini = 10
+var npcProche
 
 #gère l'apparition de nos fenêtre 
 func _input(event):
@@ -17,11 +25,13 @@ func _input(event):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		add_child(settingsmenuchar.instance())
 		get_tree().paused = true
+	if Input.is_key_pressed(KEY_ENTER) and array_npc[npcProche].can_interact == true:
+		add_child(DIALOG.instance())
+		get_tree().paused = true
 		
-	
 
-#gère la récupération des données contenues dans notre fichier texte
 func _ready():
+	#gère la récupération des données contenues dans notre fichier texte
 	configfile = ConfigFile.new()
 	if configfile.load(filepath) == OK:
 		for key in configfile.get_section_keys("keybinds"):
@@ -61,3 +71,52 @@ func write_config():
 		else:
 			configfile.set_value("keybinds", key, "")
 	configfile.save(filepath)
+	
+
+
+func _physics_process(delta):
+	#gère apparition des textes à une certaines distances des npc
+	if len(array_npc) == 0:
+		get_all_npc()
+	get_distance()
+
+#gère la récupération de tous les npc dans la scène
+func get_all_npc():
+	array_npc = get_tree().get_nodes_in_group("npc")
+
+#gère le calcul de distance entre le player et le npc
+func get_distance():
+	var Player = get_tree().get_nodes_in_group("player")
+	for i in range(array_npc.size()):
+		var x = (Player[0].translation.x - array_npc[i].translation.x)
+		var y = (Player[0].translation.y - array_npc[i].translation.y)
+		var z = (Player[0].translation.z - array_npc[i].translation.z)
+		distancePlayer = sqrt(x*x + y*y + z*z)
+		if distancePlayer > 0:
+			allDistancePlayer.append(distancePlayer)
+	
+	
+	#détecte si le npc le plus proche est dans la zone d'interaction
+	if allDistancePlayer.size() > 0:
+		get_distance_mini(allDistancePlayer)
+		
+		if distanceMini < 10:
+			array_npc[npcProche].can_interact = true
+			var label = array_npc[npcProche].get_node("Label")
+			label.visible = true
+		else:
+			array_npc[npcProche].can_interact = false
+			var label = array_npc[npcProche].get_node("Label")
+			label.visible = false
+		
+	allDistancePlayer.clear()
+		
+
+#récupère la plus petite distance avec un npc
+func get_distance_mini(allDistancePlayer):
+	distanceMini = allDistancePlayer[0]
+	npcProche = 0
+	for i in range(allDistancePlayer.size()):
+		if distanceMini > allDistancePlayer[i]:
+			distanceMini = allDistancePlayer[i]
+			npcProche = i

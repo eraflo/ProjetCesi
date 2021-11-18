@@ -111,7 +111,7 @@ func _move(_delta: float):
 			_model.rotation.y = look_direction.angle()
 	
 
-#gère la rotation
+#gère la rotation 1ere personne
 func _rotate(_delta: float) -> void:
 	if not _is_rotating or not allow_rotation:
 		return

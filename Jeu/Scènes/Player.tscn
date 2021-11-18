@@ -9,7 +9,7 @@ extents = Vector3( 0.913154, 0.956927, 1 )
 
 [sub_resource type="CapsuleMesh" id=2]
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" groups=["player"]]
 transform = Transform( 0.556713, 0, 0, 0, 1.6864, 0, 0, 0, 0.352846, 0, 0, 0 )
 script = ExtResource( 1 )
 __meta__ = {

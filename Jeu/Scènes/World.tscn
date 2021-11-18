@@ -82,4 +82,7 @@ mesh = SubResource( 11 )
 material/0 = SubResource( 12 )
 
 [node name="NPC" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.6981, 4.00188, 8.46918 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.06273, 29.8987 )
+
+[node name="NPC2" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3282, 4.95296, 11.134 )

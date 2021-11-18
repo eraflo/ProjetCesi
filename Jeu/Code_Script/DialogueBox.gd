@@ -1,11 +1,12 @@
 extends Control
 
 #là où on a nos textes
-var dialog = [
+export var dialog = [
 	'Hello my dear friend !',
 	'My name is John, the clown',
 	'I love joking'
 ]
+
 
 var dialog_index = -1
 var finished = false
