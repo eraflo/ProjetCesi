@@ -32,6 +32,7 @@ onready var _spring_arm = $SpringArm
 var allow_rotation = true
 var _last_mouse_position = Vector2()
 var _is_rotating = false
+var mouse
 
 #gestion vue
 export var change = false

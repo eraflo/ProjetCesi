@@ -2,11 +2,14 @@ extends Node
 
 onready var settingsmenu = load("res://Scènes/ParamMenu.tscn")
 onready var settingsmenuchar = load("res://Scènes/CharacterMenu.tscn")
-var DIALOG = preload("res://Scènes/DialogBox.tscn")
-var filepath = "res://keybind.ini"
+const DIALOG = preload("res://Scènes/DialogBox.tscn")
+var filepath = "res://game_data/keybind.ini"
 var configfile
 
 var keybinds = {}
+
+#détection scène actuelle
+var sceneActuelle 
 
 #gère la détection npc
 var distancePlayer
@@ -15,22 +18,41 @@ var allDistancePlayer = []
 var distanceMini = 10
 var npcProche
 
+
+
+
+
+
+
+
+
 #gère l'apparition de nos fenêtre 
 func _input(event):
-	if Input.is_key_pressed(KEY_ESCAPE):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		add_child(settingsmenu.instance())
-		get_tree().paused = true
-	if Input.is_key_pressed(KEY_I):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		add_child(settingsmenuchar.instance())
-		get_tree().paused = true
+	#permet de vérifier qu'on est bien dans une scène où le joueur a droit d'ouvrir des fenêtres
+	if sceneActuelle.size() > 0:
+		#gère les apparitions de fenêtres quand appuie sur touches
+		if Input.is_key_pressed(KEY_ESCAPE):
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			add_child(settingsmenu.instance())
+			get_tree().paused = true
+		if Input.is_key_pressed(KEY_I):
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			add_child(settingsmenuchar.instance())
+			get_tree().paused = true
 	if Input.is_key_pressed(KEY_ENTER) and array_npc[npcProche].can_interact == true:
+		var label = array_npc[npcProche].get_node("Label")
+		label.visible = false
 		add_child(DIALOG.instance())
-		get_tree().paused = true
 		
 
+
+
+
 func _ready():
+	#récupère la scène de départ pour voir la scène où on se trouve
+	sceneActuelle = get_tree().get_nodes_in_group("level")
+	
+	
 	#gère la récupération des données contenues dans notre fichier texte
 	configfile = ConfigFile.new()
 	if configfile.load(filepath) == OK:
@@ -46,6 +68,31 @@ func _ready():
 		get_tree().quit()
 	
 	set_game_binds()
+
+
+
+
+func _physics_process(delta):
+	##récupère la scène actuelle pour voir la scène où on se trouve 
+	sceneActuelle = get_tree().get_nodes_in_group("level")
+	
+	
+	#gère apparition des textes à une certaines distances des npc
+	if len(array_npc) == 0:
+		get_all_npc()
+	get_distance()
+	
+
+
+
+
+
+
+
+
+
+##############    Touches Claviers      ############
+
 
 #gère l'écriture dans nos paramètres des modifications de keys
 func set_game_binds():
@@ -74,11 +121,11 @@ func write_config():
 	
 
 
-func _physics_process(delta):
-	#gère apparition des textes à une certaines distances des npc
-	if len(array_npc) == 0:
-		get_all_npc()
-	get_distance()
+
+
+
+##############    NPC      ############
+
 
 #gère la récupération de tous les npc dans la scène
 func get_all_npc():
