@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scènes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scènes/NPC.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scènes/Ennemi.tscn" type="PackedScene" id=3]
 
 [sub_resource type="PhysicsMaterial" id=1]
 rough = true
@@ -33,7 +34,7 @@ albedo_color = Color( 0.0196078, 0.0117647, 0.0117647, 1 )
 [sub_resource type="SpatialMaterial" id=12]
 albedo_color = Color( 0, 0, 0, 1 )
 
-[node name="World" type="Spatial"]
+[node name="World" type="Spatial" groups=["level"]]
 
 [node name="Box" type="RigidBody" parent="."]
 transform = Transform( 6.23165, 0, 0, 0, 4.58923, 0, 0, 0, 6.69124, 0, 11.4244, 0 )
@@ -86,3 +87,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.06273, 29.8987 )
 
 [node name="NPC2" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3282, 4.95296, 11.134 )
+
+[node name="Ennemi" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.70514, 15.2984 )

@@ -9,6 +9,7 @@ var autosave_start_time = 0
 var playing = false #si true, on lance le cooldown de l'autosave
 var first_load = false
 
+#propriété de départ
 var player_x = 0
 var player_y = 10
 var player_z = 23
@@ -31,8 +32,6 @@ func update_data():
 		{
 			"autosave" : autosave_length
 		}
-		
-		
 	}
 
 #sauvegarde
@@ -75,9 +74,13 @@ func do_load() -> bool:
 	else:
 		return false
 
+
+
 func _physics_process(delta):
 	if(playing):
 		autosave_logic()
+
+
 
 func autosave_logic():
 	#enlève temps de départ du temps actuel (avoir en secondes)

@@ -1,9 +1,7 @@
-extends StaticBody
+extends RigidBody
 
 var can_interact = false
-var DIALOG = preload("res://Scènes/DialogBox.tscn")
-var Player_path = preload("res://Scènes/Player.tscn")
-var distancePlayer
+const DIALOG = preload("res://Scènes/DialogBox.tscn")
 
 #là où on a nos textes
 export var dialog = [
@@ -18,7 +16,6 @@ func _input(event):
 		$Label.visible = false
 		add_child(DIALOG.instance())
 		get_tree().paused = true
-	
 
 
 

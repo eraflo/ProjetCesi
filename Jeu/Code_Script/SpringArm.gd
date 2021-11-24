@@ -6,8 +6,9 @@ export var mouse_sensibility = 0.05
 
 func _ready():
 	set_as_toplevel(true)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-
+#gère rotation caméra vue 3eme personne
 func _unhandled_input(event):
 	if change == true:
 		if event is InputEventMouseMotion:
@@ -20,7 +21,7 @@ func _unhandled_input(event):
 func _process(delta):
 	if change == true and !Input.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	if Input.is_action_pressed("ui_cancel"):
+	if change == false and Input.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 
